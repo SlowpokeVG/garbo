@@ -22,7 +22,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --production
 
       - name: Build the application
         run: NODE_ENV=production GITHUB_REPOSITORY=${{ github.repository }} npm run build
