@@ -26,6 +26,7 @@ jobs:
 
       - name: Build the application
         run: |
+          export NODE_ENV=production
           export GITHUB_REPOSITORY=$(echo ${{ github.repository }} | cut -d'/' -f2)
           npm run build
 
