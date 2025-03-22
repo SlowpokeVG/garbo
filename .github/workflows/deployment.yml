@@ -16,9 +16,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get branch name
+        id: branch
+        uses: nelonoel/branch-name@v1.0.1
+
       - name: Deploy to Netlify (Preview)
         id: netlify-deploy
-        uses: nelonoel/branch-name@v1.0.1
         uses: jsmrcaga/action-netlify-deploy@v2.3.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
