@@ -31,7 +31,6 @@ jobs:
   check-deploy:
     needs: deploy-preview
     runs-on: ubuntu-latest
-    needs: deploy-preview
     steps:
       - name: Check if deployment was successful
         run: |
@@ -52,7 +51,6 @@ jobs:
   deploy-main:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    needs: check-deploy
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
