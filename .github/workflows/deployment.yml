@@ -1,12 +1,12 @@
 name: Netlify PR Preview & Main Deploy
 
-permissions:
-  issues: write
-  pull-requests: write
-
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
+
+permissions: 
+  pull-requests: write  # Нужно для добавления комментариев в PR
+  contents: read        # Для работы с кодом, но не даёт пушить в репозиторий
 
 jobs:
   deploy-preview:
@@ -39,8 +39,9 @@ jobs:
         with:
           message: "✅ [Предпросмотр доступен](${{ steps.netlify-deploy.outputs.NETLIFY_URL }})"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          
 
+  check-deploy:
+    needs: deploy-preview
     runs-on: ubuntu-latest
     steps:
       - name: Check if deployment was successful
