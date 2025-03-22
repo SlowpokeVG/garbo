@@ -16,29 +16,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
       - name: Deploy to Netlify (Preview)
         id: netlify-deploy
+        uses: nelonoel/branch-name@v1.0.1
         uses: jsmrcaga/action-netlify-deploy@v2.3.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          deploy_alias: ${{ env.BRANCH_NAME }}
           NETLIFY_DEPLOY_TO_PROD: false
           build_directory: dist
-
-      - name: Save Deploy ID
-        run: echo "NETLIFY_DEPLOY_ID=${{ steps.netlify-deploy.outputs.deploy_id }}" >> $GITHUB_ENV
-
-      - name: Add PR comment with preview URL
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: "✅ [Предпросмотр доступен](${{ steps.netlify-deploy.outputs.NETLIFY_URL }})"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          build_command: npm run build
 
   check-deploy:
     needs: deploy-preview
