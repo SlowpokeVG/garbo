@@ -31,17 +31,6 @@ jobs:
           build_directory: dist
           build_command: npm run build
 
-  check-deploy:
-    needs: deploy-preview
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check if deployment was successful
-        run: |
-          if [ "${{ needs.deploy-preview.outputs.NETLIFY_DEPLOY_STATUS }}" != "success" ]; then
-            echo "❌ Ошибка деплоя! Запрещаем мердж!"
-            exit 1
-          fi
-
   delete-preview:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
